@@ -64,6 +64,4 @@ if __name__ == "__main__":
         search(q)
 
 
-#Two things before running:
-#1. `uv add faiss-cpu` to install FAISS
 

@@ -3,7 +3,7 @@ import pickle
 import random
 import ijson
 from rank_bm25 import BM25Okapi
-from exploration_ir_modes.preprocessing import preprocess
+from retrieval_modes.preprocessing import preprocess
 
 
 SAMPLE_SIZE = 50_000  #set to None on GPU server for full corpus
@@ -64,7 +64,7 @@ if __name__ == "__main__":
         "contemplating life and existence",
         "hopeful for future",
         'songs that include the word "dreams"',
-        "songs about cats or dogs",
+        "songs about cats bc i love mine so much",
         "heartbreak crying moving on",
         "summer bangers",
         "nostalgic songs",

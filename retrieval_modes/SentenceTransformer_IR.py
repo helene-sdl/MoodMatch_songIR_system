@@ -4,7 +4,7 @@ import pickle
 import numpy as np
 import ijson
 from sentence_transformers import SentenceTransformer, util
-from exploration_ir_modes.preprocessing import preprocess
+from retrieval_modes.preprocessing import preprocess
 
 SAMPLE_SIZE      = 50_000
 CORPUS_PATH      = "data/processed/corpus.json"

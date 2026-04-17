@@ -2,79 +2,285 @@
   {
     "query": "contemplating life and existence",
     "candidates": [
- 
+      "Ambient|Ambient",
+      "All Diamonds|Quarterflash",
+      "Losing Control|Getsix & Miss Lina",
+      "Contemplating Caving|Edwin Raphael",
+      "Who Is Dwelling Here?|JC Lemay",
+      "Further|Seekae",
+      "Show me the world|Derrosure",
+      "Dissatisfied Existence|Destruction",
+      "This Is Grand|Bound Stems",
+      "Through Square Eyes|After Forever",
+      "Another Life|Esgazette",
+      "Emphasis|After Forever",
+      "Transporter|Control Human Delete",
+      "Live by Learning|Achazia",
+      "Distant Dreams|Astral Sleep",
+      "Uncontrolled|Confessor",
+      "Specimen Eruption|Zyklon",
+      "Sea Of Dreams|The Orphanage"
     ],
     "relevant_ids": [
-
+      "Contemplating Caving|Edwin Raphael"
     ]
   },
   {
     "query": "hopeful for future",
     "candidates": [
-     
+      "Torture|Legend",
+      "Hope Shines Eternal|Twilight Sparkle, Sunset Shimmer, Rainbow Dash, Apple Jack, Pinkie Pie, Rarity & Fluttershy",
+      "Part of the Wind|Tim Hardin",
+      "Everything|Ha Ha Tonka",
+      "Look at Me Now|Wang Chung",
+      "Under the Influence of Meat Puppets|fIREHOSE",
+      "Lies All Through the 80s|Manfred Mann's Earth Band",
+      "Merry Christmas Everybody|Eleven past one",
+      "We Are Persuaded|Truth (CCM)",
+      "I Can Make It With You Baby|The Pozo-Seco Singers",
+      "Children|Jonesy",
+      "Harumi|CATHEDRAL ECHO",
+      "Promise Me a Rose Garden|The M Machine",
+      "Changing Minds|New Musik",
+      "Movenpick|YUS",
+      "Search For Life|Pagan's Mind",
+      "According to the spiral|Cheer-Accident",
+      "Who Knows|Between Thieves",
+      "Calm Before The Storm|Darude"
     ],
     "relevant_ids": [
-
+      "Hope Shines Eternal|Twilight Sparkle, Sunset Shimmer, Rainbow Dash, Apple Jack, Pinkie Pie, Rarity & Fluttershy",
+      "Part of the Wind|Tim Hardin",
+      "Lies All Through the 80s|Manfred Mann's Earth Band",
+      "Changing Minds|New Musik",
+      "Movenpick|YUS",
+      "Search For Life|Pagan's Mind"
     ]
   },
   {
     "query": "songs that include the word \"dreams\"",
     "candidates": [
-    
+      "New Bones|So Many Dynamos",
+      "At Least Im Not Stuck In Quarantine With You|Cade Earick",
+      "Poetry Girl|Eric Bent",
+      "News 20|Pompeya",
+      "I Belive Long Version|Booth and the Bad Angel",
+      "Sophie|Kirsty McGee",
+      "In Dreams|Windsor Drive",
+      "The Song|John Greaves",
+      "Dreams Are Free|Dreamtide",
+      "Killing Me Softly|Nicole Cross",
+      "Choose Nightmares Not Dreams|Two Cons",
+      "Emmas Dream|The String Cheese Incident",
+      "Night Dreamin|Earth, Wind & Fire",
+      "While I Dream|Neil Sedaka",
+      "A Dream Is a Wish Your Heart Makes|Ilene Woods & Mice Chorus",
+      "DREAMLOVER|Melanie Bender",
+      "Sweet Dreams Melinda|Trey Anastasio",
+      "Running the Day|Luna Pirates",
+      "Daydreams|ORTLY",
+      "Beautiful Dreamer|Roniit"
     ],
-    "relevant_ids": []
+    "relevant_ids": [
+      "Sophie|Kirsty McGee",
+      "In Dreams|Windsor Drive",
+      "Dreams Are Free|Dreamtide",
+      "Choose Nightmares Not Dreams|Two Cons",
+      "Night Dreamin|Earth, Wind & Fire"
+    ]
   },
   {
     "query": "songs about cats, bc i love mine so much",
     "candidates": [
-    
+      "The Old Newsstand at Hamilton Square|The Boo Radleys",
+      "Mine To Waste|Pushmonkey",
+      "Cats Got Your Tongue|Nivea",
+      "A Song For You|Peggy Lee",
+      "Were All Animals|Kimya Dawson",
+      "Cat Burglar|Flesh for Lulu",
+      "This Heart of Mine|Sophia Pizzulo",
+      "My Hearts Like a Welcome Mat|Jim Reeves",
+      "Our House|Angie Hart",
+      "All I Need is a Kitty Cat Cat Kitty for Christmas|Christmas Workshop Band",
+      "Christian Girl|The Tuna Helpers",
+      "Tamed|Paper Route",
+      "Autumn Leaves|Joseph Kosma",
+      "My December|Galadriel",
+      "7/27|Cleanup Crew",
+      "Cats|Barnes & Barnes",
+      "Ice and Snow|Maitreya Kali",
+      "Happy Feet|Paul Whiteman and His Orchestra",
+      "Get Drunk|Drag The River",
+      "Fly Me to the Moon|Sitti"
     ],
     "relevant_ids": [
-
+      "All I Need is a Kitty Cat Cat Kitty for Christmas|Christmas Workshop Band",
+      "Cats|Barnes & Barnes"
     ]
   },
   {
     "query": "heartbreak crying moving on",
     "candidates": [
-    
+      "Heartbeat Heartbreak|Shihoko Hirata",
+      "Heartbreaker|Down North",
+      "A 90s Heartbreak|Terrell Journey",
+      "Land of Heartbreak|Paulini",
+      "Heartless|Feeling Every Sunset",
+      "Heart Break|Moody Good & SLANDER",
+      "Heartbreak Story|girlyboi",
+      "Sea of Heartbreak|Jody Miller",
+      "The Word for Today|Billy Thorpe",
+      "Heart Vacancy|The Wanted",
+      "Go Ahead and Cry single version|The Righteous Brothers",
+      "Remember|Boy The Corgi",
+      "Dont Cry Dont Think About It|Sunrise Avenue",
+      "New Boy New Girl|Best Youth",
+      "Andrea|Nothing More",
+      "A Matter of Time|Spandau Ballet",
+      "Never Let You Go|Brightline",
+      "Your Heart Is Too Crowded|Ray Price",
+      "Crying Time|Ernest Tubb"
     ],
     "relevant_ids": [
-      
+      "Heartbeat Heartbreak|Shihoko Hirata",
+      "A 90s Heartbreak|Terrell Journey",
+      "Land of Heartbreak|Paulini",
+      "Heartbreak Story|girlyboi",
+      "New Boy New Girl|Best Youth"
     ]
   },
   {
     "query": "summer bangers",
     "candidates": [
-     
+      "Ridin Round|zen online",
+      "Cotton Candies|Heiakim",
+      "Sikome Beach reprise|Chixdiggit!",
+      "ALL STAR|Westye Hemsley",
+      "Islands|Pluslow",
+      "Summer Never Ends|Anna Yvette & Laura Brehm",
+      "Summer Is Over|Anoraak",
+      "Summer Days Summer Nights|The Explorers Club",
+      "My Best Summer|Dan Blan",
+      "Now That Summer Is Gone|Jon Stancer",
+      "Summerbass|S3RL",
+      "Schools Out|Grave Digger (band)",
+      "Indian summer|Duke Ellington",
+      "Summertime Rock|Mad Heads",
+      "The Quick Gas Gang|Sex Gang Children",
+      "Holiday Crime|Greta (English)",
+      "Summertime|Indigo Girls",
+      "Summertime Summertime|The Jamies",
+      "The Call Of The Wild|Jimi Tenor"
     ],
     "relevant_ids": []
   },
   {
     "query": "nostalgic songs",
     "candidates": [
-     
+      "Nostalgic Bitch|Oscar and the Wolf",
+      "The Waves|ADOETTE",
+      "Poor De Chirico|10,000 Maniacs",
+      "Zip-A-Dee-Doo-Dah|Johnny Mercer",
+      "Carolina|Billy Raffoul",
+      "Youth|Kendall Skott",
+      "Mt. Hope|Mixtapes",
+      "KIRINJI - killer tune kills me ft. YonYon English Translation|Genius English Translations",
+      "Fade Away|Del claro",
+      "Mariya Takeuchi - Station English Translation|Genius English Translations",
+      "Nostalgia|Buzzcocks",
+      "Strategic Gear|The Pastels",
+      "I Love My Radio|DJ Bobo",
+      "Songs of...|John Denver",
+      "Timeless|American Authors & Chad Tepper",
+      "Brooklyn|Jesse Malin",
+      "Voice in the Old Village Choir|Eddy Arnold",
+      "If It Aint Gonna Rock|Mike Tramp"
     ],
-    "relevant_ids": []
+    "relevant_ids": [
+      "Fade Away|Del claro",
+      "Nostalgia|Buzzcocks",
+      "Timeless|American Authors & Chad Tepper",
+      "Brooklyn|Jesse Malin"
+    ]
   },
   {
     "query": "songs similar to \"Blank Space\" by Taylor Swift",
     "candidates": [
-    
+      "CAT.FLP RADIO INTERLUDE feat. ???|cat.flp",
+      "Because Theres U|The Tony Rich Project",
+      "Taylor - 2009 island sessions|Niki & The Dove",
+      "Shake It Off Parody|Bart Baker",
+      "NGC 4945|Brett Domino",
+      "Wanted Found|Subtle",
+      "U Got Me|Yung Heazy",
+      "Voiceless|Tonya G",
+      "Same Damn Song|More Amor",
+      "The Holes|Fol Chen",
+      "Mere Words|Bobby McFerrin",
+      "Strangers|Gung Ho",
+      "Lay With You|Schilly",
+      "Love Songs|Fleming & John",
+      "Cant Get My Way Around You|Gwyn Ashton",
+      "Cute|Manic Drive",
+      "Theres Something in the Air|Modern Talking",
+      "More Than You Know|Stereo Skyline",
+      "Almost Like Being There|David Lee Murphy"
     ],
     "relevant_ids": []
   },
   {
     "query": "angry breakup",
     "candidates": [
-   
+      "Wish I Could Wish I Could|Georgia Horgan",
+      "Breakup Boots|Amy Rigby",
+      "The Date|Scott Weiland",
+      "Everything We Ever Wanted|David ODowda",
+      "Angry Bird|Al Stewart",
+      "Close To You|JORDY",
+      "Mind|Emily Nash",
+      "Stay|Gregory Douglass",
+      "The Company Turns Ugly|Stephen Cummings",
+      "Guiltless|dodie",
+      "Blues In My Heart|Cab Calloway",
+      "Andrea|Nothing More",
+      "Need|Dogfight",
+      "Broken Pieces|PainInHisVoice",
+      "Seven days too long|Chuck wood",
+      "Best Of Luck|Olivia Mcbeth",
+      "New Boy New Girl|Best Youth",
+      "Out Of My Mind|Audioweb",
+      "Things Fall Apart|Serafin",
+      "Lazy Eye|Angel Hair"
     ],
-    "relevant_ids": []
+    "relevant_ids": [
+      "Out Of My Mind|Audioweb",
+      "Things Fall Apart|Serafin"
+    ]
   },
   {
     "query": "songs about vienna",
     "candidates": [
-     
+      "Vienna|Sean J O'Neill",
+      "Where Can I Go Without You|Dionne Warwick",
+      "Up to You|Eternal",
+      "An Ordinary Man|Frank Wildhorn and Steve Cuden",
+      "Chin Up Cheerio Carry On|Judy Garland",
+      "MMXX|Flying Ant",
+      "Tokyo Drift|Mavi Phoenix",
+      "Lulla|Tinariwen",
+      "In My Song|Peter Tosh",
+      "Songs of...|John Denver",
+      "Oceanic|B-OND",
+      "Faith Of Our Fathers|Bing Crosby",
+      "Autumn Leaves|Joseph Kosma",
+      "Hash Dreams|Umbra Et Imago",
+      "Eternity You Will Never Be Forgotten|Korsakoff",
+      "Symphony Lane|Five for Fighting",
+      "Tacones Rojos|Sebastin Yatra & John Legend",
+      "The Mighty City|Malcolm Holcombe"
     ],
-    "relevant_ids": []
+    "relevant_ids": [
+      "Vienna|Sean J O'Neill"
+    ]
   }
 ]

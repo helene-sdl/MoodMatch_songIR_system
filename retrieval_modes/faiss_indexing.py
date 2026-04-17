@@ -3,7 +3,7 @@ import pickle
 import numpy as np
 import faiss
 from sentence_transformers import SentenceTransformer
-from exploration_ir_modes.preprocessing import preprocess
+from retrieval_modes.preprocessing import preprocess
 
 EMBEDDINGS_PATH  = "data/processed/st_embeddings.npy"
 ST_CORPUS_PICKLE = "data/processed/st_corpus.pkl"

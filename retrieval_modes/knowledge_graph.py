@@ -1,5 +1,7 @@
 #knowledge graph construction (song has a title, an artist, lyrics, a year, and most importantly, a mood/theme))
 #either with classifier & labels (from huggingface) or with clustering and manually labeling(k-means)? 
+#has to be changed when on GPU server, but for now we can do a small sample on CPU to test the concept and save the graph for later use in retrieval...
+#also: "reclassify" emotions maybe 
 import pickle
 import networkx as nx
 from transformers import pipeline

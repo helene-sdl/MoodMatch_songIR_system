@@ -8,10 +8,10 @@ from sentence_transformers import SentenceTransformer, util
  
 from retrieval_modes.preprocessing import preprocess
  
-SAMPLE_SIZE      = 50_000  #Set to None on GPU server for full corpus
-CORPUS_PATH      = "data/processed/corpus.json"
-EMBEDDINGS_PATH  = "data/processed/st_embeddings.npy"
-ST_CORPUS_PICKLE = "data/processed/st_corpus.pkl"
+SAMPLE_SIZE      = None  #Set to None on GPU server for full corpus
+CORPUS_PATH      = "processed/corpus.json"
+EMBEDDINGS_PATH  = "processed/st_embeddings.npy"
+ST_CORPUS_PICKLE = "processed/st_corpus.pkl"
 MODEL_NAME       = "all-MiniLM-L6-v2"
  
 QUERIES = [
@@ -42,7 +42,9 @@ def load_or_build_corpus() -> list:
  
     with open(CORPUS_PATH, "rb") as f:
         for i, doc in enumerate(ijson.items(f, "item")):
-            if i < SAMPLE_SIZE:
+            if SAMPLE_SIZE is None:
+                reservoir.append(doc)
+            elif i < SAMPLE_SIZE:
                 reservoir.append(doc)
             else:
                 j = random.randint(0, i)
@@ -50,7 +52,7 @@ def load_or_build_corpus() -> list:
                     reservoir[j] = doc
             if i % 100_000 == 0 and i > 0:
                 print(f"  ...scanned {i:,} docs")
- 
+    
     os.makedirs("data/processed", exist_ok=True)
     with open(ST_CORPUS_PICKLE, "wb") as f:
         pickle.dump(reservoir, f)
@@ -93,7 +95,7 @@ def search(query: str, corpus: list, model: SentenceTransformer, doc_embeddings:
  
 def main() -> None:
     corpus = load_or_build_corpus()
-    model = SentenceTransformer(MODEL_NAME)
+    model = SentenceTransformer(MODEL_NAME, device="cuda:1")
     doc_embeddings = load_or_build_embeddings(corpus, model)
  
     print("\nSentenceTransformer Search Results:")

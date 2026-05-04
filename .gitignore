@@ -1,3 +1,10 @@
 data/
 __pycache__/
 .DS_Store
+processed/
+data/
+*.pkl
+*.npy
+*.bin
+*.db
+corpus.json

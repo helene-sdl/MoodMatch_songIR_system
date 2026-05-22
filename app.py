@@ -1,14 +1,16 @@
 import pickle
 import numpy as np
+import faiss
 import streamlit as st
 from rank_bm25 import BM25Okapi
-from sentence_transformers import SentenceTransformer, util
+from sentence_transformers import SentenceTransformer
 from retrieval_modes.preprocessing import preprocess
 from retrieval_modes.rrf_retrieval import search_rrf
 
 BM25_PICKLE      = "processed/bm25_index.pkl"
 ST_CORPUS_PICKLE = "processed/st_corpus.pkl"
 EMBEDDINGS_PATH  = "processed/st_embeddings.npy"
+FAISS_INDEX_PATH = "processed/faiss_index.bin"
 GRAPH_PATH       = "processed/knowledge_graph.pkl"
 MODEL_NAME       = "all-MiniLM-L6-v2"
 TOP_K            = 10
@@ -76,13 +78,12 @@ def load_bm25():
 
 
 @st.cache_resource
-@st.cache_resource
 def load_st():
     with open(ST_CORPUS_PICKLE, "rb") as f:
         corpus = pickle.load(f)
-    embeddings = np.load(EMBEDDINGS_PATH)
-    model = SentenceTransformer(MODEL_NAME, device="cpu")  #force CPU
-    return corpus, embeddings, model
+    index = faiss.read_index(FAISS_INDEX_PATH)
+    model = SentenceTransformer(MODEL_NAME, device="cpu")
+    return corpus, index, model
 
 
 @st.cache_resource
@@ -96,7 +97,6 @@ def load_graph():
 
 
 def get_mood(G, song_idx: int) -> str:
-    """Look up mood for a song from the knowledge graph."""
     if G is None:
         return "unknown"
     song_id = f"song_{song_idx}"
@@ -128,22 +128,21 @@ def search_bm25(query: str, corpus: list, bm25: BM25Okapi, G, top_k: int) -> lis
     return results
 
 
-def search_st(query: str, corpus: list, embeddings: np.ndarray, model: SentenceTransformer, G, top_k: int) -> list:
-    query_embedding = model.encode(query, convert_to_numpy=True)
-    scores = util.cos_sim(query_embedding, embeddings)[0]
-    top_indices = scores.topk(top_k).indices
+def search_st(query: str, corpus: list, index: faiss.Index, model: SentenceTransformer, G, top_k: int) -> list:
+    query_embedding = model.encode([query], convert_to_numpy=True).astype("float32")
+    faiss.normalize_L2(query_embedding)
+    scores, indices = index.search(query_embedding, top_k)
     results = []
-    for idx in top_indices:
-        idx = idx.item()
+    for score, idx in zip(scores[0], indices[0]):
         doc = corpus[idx]
         results.append({
-            "idx":    idx,
+            "idx":    int(idx),
             "title":  doc["title"],
             "artist": doc["artist"],
             "year":   doc.get("year", ""),
             "mood":   get_mood(G, idx),
             "lyrics": doc.get("lyrics", "")[:200],
-            "score":  round(scores[idx].item(), 4),
+            "score":  round(float(score), 4),
         })
     return results
 
@@ -172,22 +171,22 @@ with col2:
     method = st.selectbox("Retrieval method", ["BM25", "SentenceTransformers", "RRF"])
 
 if query:
-    G = load_graph()
-
     with st.spinner("Searching..."):
         if method == "BM25":
             corpus, bm25 = load_bm25()
+            G = load_graph()
             results = search_bm25(query, corpus, bm25, G, TOP_K)
 
         elif method == "SentenceTransformers":
-            corpus, embeddings, model = load_st()
-            results = search_st(query, corpus, embeddings, model, G, TOP_K)
+            corpus, index, model = load_st()
+            G = load_graph()
+            results = search_st(query, corpus, index, model, G, TOP_K)
 
         elif method == "RRF":
             bm25_corpus, bm25 = load_bm25()
-            st_corpus, embeddings, model = load_st()
-            results = search_rrf(query, bm25_corpus, bm25, st_corpus, embeddings, model, TOP_K)
-            # add mood lookup using idx returned by search_rrf
+            st_corpus, index, model = load_st()
+            G = load_graph()
+            results = search_rrf(query, bm25_corpus, bm25, st_corpus, index, model, TOP_K)
             for r in results:
                 r["mood"] = get_mood(G, r["idx"])
 

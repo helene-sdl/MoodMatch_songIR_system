@@ -1,7 +1,7 @@
 import pickle
 import json
 
-ST_CORPUS_PICKLE = "processed/processed/st_corpus.pkl"
+ST_CORPUS_PICKLE = "processed/st_corpus.pkl"
 
 EVAL_SET = {
     "contemplating life and existence": [
@@ -85,7 +85,6 @@ EVAL_SET = {
     ],
     "songs about vienna": [
         ("Vienna", "Billy Joel"),
-        ("Vienna Calling", "Falco"),
         ("The Sound of Music", "Julie Andrews"),
         ("Budapest", "George Ezra"),
         ("Suitcase", "Brandi Carlile"),
@@ -97,11 +96,13 @@ def find_song(corpus, title, artist):
     title_lower  = title.lower().strip()
     artist_lower = artist.lower().strip()
     for i, doc in enumerate(corpus):
-        if doc["title"].lower().strip() == title_lower and artist_lower in doc["artist"].lower():
-            return i
+        if doc.get("title") and doc.get("artist"):
+            if doc["title"].lower().strip() == title_lower and artist_lower in doc["artist"].lower():
+                return i
     for i, doc in enumerate(corpus):
-        if doc["title"].lower().strip() == title_lower:
-            return i
+        if doc.get("title"):
+            if doc["title"].lower().strip() == title_lower:
+                return i
     return None
 
 

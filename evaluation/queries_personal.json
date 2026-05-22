@@ -1,0 +1,80 @@
+[
+  {
+    "query": "contemplating life and existence",
+    "relevant_ids": [
+      5195
+    ]
+  },
+  {
+    "query": "hopeful for future",
+    "relevant_ids": [
+      26485,
+      44505,
+      7943
+    ]
+  },
+  {
+    "query": "songs that include the word \"dreams\"",
+    "relevant_ids": [
+      5628,
+      520,
+      10860,
+      5628
+    ]
+  },
+  {
+    "query": "songs about cats",
+    "relevant_ids": []
+  },
+  {
+    "query": "heartbreak crying moving on",
+    "relevant_ids": [
+      30421,
+      9418
+    ]
+  },
+  {
+    "query": "summer bangers",
+    "relevant_ids": [
+      3509,
+      18994,
+      21168,
+      46518
+    ]
+  },
+  {
+    "query": "nostalgic songs",
+    "relevant_ids": [
+      16908,
+      16092,
+      16516,
+      13188,
+      30263
+    ]
+  },
+  {
+    "query": "songs similar to \"Blank Space\" by Taylor Swift",
+    "relevant_ids": [
+      2803,
+      520,
+      1059,
+      126,
+      26538,
+      16379
+    ]
+  },
+  {
+    "query": "angry breakup",
+    "relevant_ids": [
+      6669
+    ]
+  },
+  {
+    "query": "songs about vienna",
+    "relevant_ids": [
+      9037,
+      18648,
+      33223
+    ]
+  }
+]

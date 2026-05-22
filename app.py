@@ -4,20 +4,21 @@ import streamlit as st
 from rank_bm25 import BM25Okapi
 from sentence_transformers import SentenceTransformer, util
 from retrieval_modes.preprocessing import preprocess
- 
-BM25_PICKLE      = "processed/processed/bm25_index.pkl"
-ST_CORPUS_PICKLE = "processed/processed/st_corpus.pkl"
-EMBEDDINGS_PATH  = "processed/processed/st_embeddings.npy"
-GRAPH_PATH       = "processed/processed/knowledge_graph.pkl"
+from retrieval_modes.rrf_retrieval import search_rrf
+
+BM25_PICKLE      = "processed/bm25_index.pkl"
+ST_CORPUS_PICKLE = "processed/st_corpus.pkl"
+EMBEDDINGS_PATH  = "processed/st_embeddings.npy"
+GRAPH_PATH       = "processed/knowledge_graph.pkl"
 MODEL_NAME       = "all-MiniLM-L6-v2"
 TOP_K            = 10
- 
+
 st.set_page_config(
     page_title="MoodMatch",
     page_icon="🎵",
     layout="wide"
 )
- 
+
 st.markdown("""
     <style>
     .main { background-color: #0f0f0f; }
@@ -65,23 +66,25 @@ st.markdown("""
     }
     </style>
 """, unsafe_allow_html=True)
- 
+
+
 @st.cache_resource
 def load_bm25():
     with open(BM25_PICKLE, "rb") as f:
         corpus, bm25 = pickle.load(f)
     return corpus, bm25
- 
- 
+
+
+@st.cache_resource
 @st.cache_resource
 def load_st():
     with open(ST_CORPUS_PICKLE, "rb") as f:
         corpus = pickle.load(f)
     embeddings = np.load(EMBEDDINGS_PATH)
-    model = SentenceTransformer(MODEL_NAME)
+    model = SentenceTransformer(MODEL_NAME, device="cpu")  #force CPU
     return corpus, embeddings, model
- 
- 
+
+
 @st.cache_resource
 def load_graph():
     try:
@@ -90,8 +93,8 @@ def load_graph():
         return G
     except FileNotFoundError:
         return None
- 
- 
+
+
 def get_mood(G, song_idx: int) -> str:
     """Look up mood for a song from the knowledge graph."""
     if G is None:
@@ -104,8 +107,8 @@ def get_mood(G, song_idx: int) -> str:
         if data.get("type") == "mood":
             return data["mood"]
     return "unknown"
- 
- 
+
+
 def search_bm25(query: str, corpus: list, bm25: BM25Okapi, G, top_k: int) -> list:
     tokens = preprocess(query)
     scores = bm25.get_scores(tokens)
@@ -114,16 +117,17 @@ def search_bm25(query: str, corpus: list, bm25: BM25Okapi, G, top_k: int) -> lis
     for idx in top_indices:
         doc = corpus[idx]
         results.append({
-            "title": doc["title"],
+            "idx":    idx,
+            "title":  doc["title"],
             "artist": doc["artist"],
-            "year": doc.get("year", ""),
-            "mood": get_mood(G, idx),
+            "year":   doc.get("year", ""),
+            "mood":   get_mood(G, idx),
             "lyrics": doc.get("lyrics", "")[:200],
-            "score": round(scores[idx], 4),
+            "score":  round(scores[idx], 4),
         })
     return results
- 
- 
+
+
 def search_st(query: str, corpus: list, embeddings: np.ndarray, model: SentenceTransformer, G, top_k: int) -> list:
     query_embedding = model.encode(query, convert_to_numpy=True)
     scores = util.cos_sim(query_embedding, embeddings)[0]
@@ -133,16 +137,17 @@ def search_st(query: str, corpus: list, embeddings: np.ndarray, model: SentenceT
         idx = idx.item()
         doc = corpus[idx]
         results.append({
-            "title": doc["title"],
+            "idx":    idx,
+            "title":  doc["title"],
             "artist": doc["artist"],
-            "year": doc.get("year", ""),
-            "mood": get_mood(G, idx),
+            "year":   doc.get("year", ""),
+            "mood":   get_mood(G, idx),
             "lyrics": doc.get("lyrics", "")[:200],
-            "score": round(scores[idx].item(), 4),
+            "score":  round(scores[idx].item(), 4),
         })
     return results
- 
- 
+
+
 def render_results(results: list):
     for r in results:
         st.markdown(f"""
@@ -153,29 +158,38 @@ def render_results(results: list):
             <div class="lyrics-snippet">{r['lyrics']}...</div>
         </div>
         """, unsafe_allow_html=True)
- 
- 
+
+
 # --- UI ---
 st.markdown("# 🎵 MoodMatch")
 st.markdown("*Find songs that match your mood, feeling or theme*")
 st.divider()
- 
+
 col1, col2 = st.columns([3, 1])
 with col1:
     query = st.text_input("", placeholder="e.g. heartbreak crying moving on, nostalgic summer, contemplating life...")
 with col2:
-    method = st.selectbox("Retrieval method", ["BM25", "SentenceTransformers"])
- 
+    method = st.selectbox("Retrieval method", ["BM25", "SentenceTransformers", "RRF"])
+
 if query:
     G = load_graph()
- 
+
     with st.spinner("Searching..."):
         if method == "BM25":
             corpus, bm25 = load_bm25()
             results = search_bm25(query, corpus, bm25, G, TOP_K)
-        else:
+
+        elif method == "SentenceTransformers":
             corpus, embeddings, model = load_st()
             results = search_st(query, corpus, embeddings, model, G, TOP_K)
- 
+
+        elif method == "RRF":
+            bm25_corpus, bm25 = load_bm25()
+            st_corpus, embeddings, model = load_st()
+            results = search_rrf(query, bm25_corpus, bm25, st_corpus, embeddings, model, TOP_K)
+            # add mood lookup using idx returned by search_rrf
+            for r in results:
+                r["mood"] = get_mood(G, r["idx"])
+
     st.markdown(f"**Top {TOP_K} results for:** *{query}*")
     render_results(results)

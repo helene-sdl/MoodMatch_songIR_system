@@ -1,11 +1,13 @@
 import re
 import string
 import nltk
+import os
+os.environ["NLTK_DATA"] = "/home/mlt_ml1/nltk_data"
 from nltk.corpus import stopwords
 from nltk.stem import PorterStemmer
 
-nltk.download("stopwords", quiet=True)
-nltk.download("punkt", quiet=True)
+nltk.download("stopwords", quiet=True, raise_on_error=False)
+nltk.download("punkt", quiet=True, raise_on_error=False)
 
 stop_words = set(stopwords.words("english"))
 stemmer = PorterStemmer()

@@ -1,0 +1,105 @@
+[
+  {
+    "query": "contemplating life and existence",
+    "graded_ids": {
+      "56527": 1,
+      "2019": 1,
+      "599128": 2,
+      "77764": 2,
+      "668592": 1,
+      "1446": 0
+    }
+  },
+  {
+    "query": "hopeful for future",
+    "graded_ids": {
+      "63740": 2,
+      "77569": 1,
+      "28375": 2,
+      "44505": 0,
+      "101483": 2
+    }
+  },
+  {
+    "query": "songs that include the word \"dreams\"",
+    "graded_ids": {
+      "3000": 2,
+      "520": 2,
+      "55910": 1,
+      "16460": 2
+    }
+  },
+  {
+    "query": "songs about cats",
+    "graded_ids": {
+      "729028": 0,
+      "367427": 1,
+      "9683": 2,
+      "10770": 0
+    }
+  },
+  {
+    "query": "heartbreak crying moving on",
+    "graded_ids": {
+      "485": 2,
+      "622461": 2,
+      "43364": 1,
+      "44": 2,
+      "16664": 1,
+      "306": 0
+    }
+  },
+  {
+    "query": "summer bangers",
+    "graded_ids": {
+      "15191": 2,
+      "262": 2,
+      "234": 2,
+      "107": 2,
+      "280494": 1,
+      "341": 2
+    }
+  },
+  {
+    "query": "nostalgic songs",
+    "graded_ids": {
+      "26362": 2,
+      "227": 1,
+      "225": 2,
+      "2550": 1,
+      "96430": 2,
+      "3180": 1
+    }
+  },
+  {
+    "query": "songs similar to \"Blank Space\" by Taylor Swift",
+    "graded_ids": {
+      "307": 2,
+      "586": 2,
+      "520": 2,
+      "987": 1,
+      "126": 1,
+      "4": 1,
+      "354": 0
+    }
+  },
+  {
+    "query": "angry breakup",
+    "graded_ids": {
+      "27982": 2,
+      "43364": 2,
+      "17416": 1,
+      "552868": 2,
+      "5051": 1
+    }
+  },
+  {
+    "query": "songs about vienna",
+    "graded_ids": {
+      "8109": 1,
+      "35984": 0,
+      "1587": 0,
+      "3563": 0
+    }
+  }
+]

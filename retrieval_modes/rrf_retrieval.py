@@ -4,6 +4,7 @@ import faiss
 from rank_bm25 import BM25Okapi
 from sentence_transformers import SentenceTransformer
 from retrieval_modes.preprocessing import preprocess
+from retrieval_modes.query_expansion import expand_query, expand_and_preprocess
 
 BM25_PICKLE      = "processed/bm25_index.pkl"
 ST_CORPUS_PICKLE = "processed/st_corpus.pkl"
@@ -50,7 +51,7 @@ def search_rrf(
         List of result dicts with title, artist, year, lyrics, score, idx
     """
     # --- BM25 candidates ---
-    tokens = preprocess(query)
+    tokens =  expand_and_preprocess(query)
     bm25_scores = bm25.get_scores(tokens)
     bm25_indices = sorted(
         range(len(bm25_scores)),
@@ -59,7 +60,8 @@ def search_rrf(
     )[:candidate_pool]
 
     # --- FAISS candidates ---
-    query_embedding = model.encode([query], convert_to_numpy=True).astype("float32")
+    expanded = expand_query(query)
+    query_embedding = model.encode([expanded], convert_to_numpy=True).astype("float32")
     faiss.normalize_L2(query_embedding)
     _, faiss_indices = index.search(query_embedding, candidate_pool)
     st_indices = faiss_indices[0].tolist()

@@ -1,3 +1,4 @@
+import html
 import pickle
 import numpy as np
 import faiss
@@ -60,9 +61,14 @@ st.markdown("""
         font-size: 12px; color: #9AB0C0; margin-top: 8px;
         font-style: italic; border-left: 2px solid #4A6274; padding-left: 8px;
     }
+    .tags-row { margin-top: 8px; display: flex; flex-wrap: wrap; gap: 4px; }
     .mood-label {
         border: 1px solid #B87333; color: #B87333;
         border-radius: 4px; padding: 3px 10px; font-size: 12px; white-space: nowrap;
+    }
+    .theme-label {
+        border: 1px solid #4A6274; color: #9AB0C0;
+        border-radius: 4px; padding: 3px 8px; font-size: 11px; white-space: nowrap;
     }
     .confidence-wrap { width: 120px; }
     .confidence-bar-bg {
@@ -125,15 +131,44 @@ def get_mood(G, song_idx: int) -> str:
     return "unknown"
 
 
-def get_top_moods(results: list, top_n: int = 3) -> list:
+def get_themes(G, song_idx: int, top_n: int = 2) -> list:
+    if G is None:
+        return []
+    song_id = f"song_{song_idx}"
+    if song_id not in G:
+        return []
+    themes = []
+    for neighbor in G.successors(song_id):
+        data = G.nodes[neighbor]
+        if data.get("type") == "theme":
+            weight = G.edges[song_id, neighbor].get("weight", 0)
+            themes.append((data["theme"], weight))
+    themes.sort(key=lambda x: x[1], reverse=True)
+    return [t for t, _ in themes[:top_n]]
+
+
+def get_refinement_tags(results: list, G, top_n: int = 4) -> list:
+    """Get top moods + themes across results for disambiguation chips."""
+    tags = []
     moods = [r["mood"] for r in results if r.get("mood") and r["mood"] != "unknown"]
-    counts = Counter(moods)
-    return [mood for mood, _ in counts.most_common(top_n)]
+    tags.extend([m for m, _ in Counter(moods).most_common(2)])
+    all_themes = []
+    for r in results:
+        all_themes.extend(get_themes(G, r["idx"]))
+    tags.extend([t for t, _ in Counter(all_themes).most_common(2)])
+    return list(dict.fromkeys(tags))[:top_n]
 
 
-def filter_by_mood(results: list, mood: str) -> list:
-    matching = [r for r in results if r.get("mood") == mood]
-    others = [r for r in results if r.get("mood") != mood]
+def filter_by_tag(results: list, G, tag: str) -> list:
+    """Re-rank results: matching mood or theme first."""
+    def has_tag(r):
+        if r.get("mood") == tag:
+            return True
+        if tag in get_themes(G, r["idx"]):
+            return True
+        return False
+    matching = [r for r in results if has_tag(r)]
+    others = [r for r in results if not has_tag(r)]
     return matching + others
 
 
@@ -176,7 +211,7 @@ def search_st(query: str, corpus: list, index: faiss.Index, model: SentenceTrans
     return results
 
 
-def render_results(results: list, method: str):
+def render_results(results: list, method: str, G):
     all_scores = [r["score"] for r in results]
     min_s = min(all_scores) if all_scores else 0
     max_s = max(all_scores) if all_scores else 1
@@ -184,16 +219,25 @@ def render_results(results: list, method: str):
         norm = (r["score"] - min_s) / (max_s - min_s) if max_s != min_s else 0.75
         pct = int(norm * 100)
         bar_width = int(norm * 120)
-        mood = r.get("mood", "unknown")
+        mood = html.escape(r.get("mood", "unknown"))
+        title = html.escape(r.get("title", ""))
+        artist = html.escape(r.get("artist", ""))
+        year = html.escape(str(r.get("year", "")))
+        lyrics = html.escape(r.get("lyrics", ""))
+        themes = get_themes(G, r["idx"])
+        theme_html = "".join([f'<span class="theme-label">{html.escape(t)}</span>' for t in themes])
         st.markdown(f"""
         <div class="result-card">
             <div class="card-left">
-                <div class="song-title">▷ {r['title']}</div>
-                <div class="song-meta">{r['artist']} &nbsp;·&nbsp; {r['year']}</div>
-                <div class="lyrics-snippet">{r['lyrics']}...</div>
+                <div class="song-title">▷ {title}</div>
+                <div class="song-meta">{artist} &nbsp;·&nbsp; {year}</div>
+                <div class="lyrics-snippet">{lyrics}...</div>
+                <div class="tags-row">
+                    <span class="mood-label">{mood}</span>
+                    {theme_html}
+                </div>
             </div>
             <div class="card-right">
-                <div class="mood-label">{mood}</div>
                 <div class="confidence-wrap">
                     <div class="confidence-bar-bg">
                         <div class="confidence-bar-fill" style="width:{bar_width}px"></div>
@@ -214,7 +258,7 @@ col1, col2 = st.columns([3, 1])
 with col1:
     query = st.text_input("", placeholder="e.g. heartbreak crying moving on, nostalgic summer, contemplating life...")
 with col2:
-    method = st.selectbox("Retrieval method", ["BM25", "SentenceTransformers", "RRF", "RRF + Reranking"])
+    method = st.selectbox("Retrieval method", ["BM25", "SentenceTransformers", "RRF", "RRF + Reranking", "HyDE"])
 
 if query:
     with st.spinner("Searching..."):
@@ -246,23 +290,35 @@ if query:
             for r in results:
                 r["mood"] = get_mood(G, r["idx"])
 
+        elif method == "HyDE":
+            from retrieval_modes.hyde import search_hyde
+            corpus, index, model = load_st()
+            G = load_graph()
+            results = search_hyde(query, corpus, index, model, TOP_K)
+            for r in results:
+                r["mood"] = get_mood(G, r["idx"])
+
+    # show HyDE hypothesis
+    if method == "HyDE" and results:
+        st.info(f"🎵 Searching for songs like:\n\n*{results[0]['hypothesis']}*")
+
     # --- Disambiguation ---
-    top_moods = get_top_moods(results)
-    if top_moods:
+    top_tags = get_refinement_tags(results, G)
+    if top_tags:
         st.markdown("**Also feeling?**")
-        cols = st.columns(len(top_moods) + 1)
-        selected_mood = st.session_state.get("selected_mood", None)
+        cols = st.columns(len(top_tags) + 1)
+        selected_tag = st.session_state.get("selected_tag", None)
         with cols[0]:
-            if st.button("all", key="clear_mood"):
-                st.session_state["selected_mood"] = None
-                selected_mood = None
-        for i, mood in enumerate(top_moods):
+            if st.button("all", key="clear_tag"):
+                st.session_state["selected_tag"] = None
+                selected_tag = None
+        for i, tag in enumerate(top_tags):
             with cols[i + 1]:
-                if st.button(mood, key=f"mood_{mood}"):
-                    st.session_state["selected_mood"] = mood
-                    selected_mood = mood
-        if selected_mood and selected_mood in top_moods:
-            results = filter_by_mood(results, selected_mood)
+                if st.button(tag, key=f"tag_{tag}"):
+                    st.session_state["selected_tag"] = tag
+                    selected_tag = tag
+        if selected_tag and selected_tag in top_tags:
+            results = filter_by_tag(results, G, selected_tag)
 
     st.markdown(f"**Top {TOP_K} results for:** *{query}*")
-    render_results(results, method)
+    render_results(results, method, G)

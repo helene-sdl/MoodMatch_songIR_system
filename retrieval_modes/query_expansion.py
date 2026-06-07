@@ -5,16 +5,6 @@ from nltk.corpus import wordnet
 
 
 def expand_query(query: str, max_synonyms: int = 3) -> str:
-    """
-    Expand a query with WordNet synonyms.
-
-    Args:
-        query:        Raw query string
-        max_synonyms: Max synonyms to add per token
-
-    Returns:
-        Expanded query string with synonyms appended
-    """
     tokens = query.lower().split()
     extra = []
 

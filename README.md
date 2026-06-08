@@ -8,6 +8,7 @@ MoodMatch is an Information Retrieval system that finds songs by **mood, feeling
 ## Demo
 
 ![MoodMatch UI](assets/MoodMatch.png)
+![MoodMatch UI](assets/Page_MM.jpeg)
 
 ---
 

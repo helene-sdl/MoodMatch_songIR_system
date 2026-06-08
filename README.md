@@ -47,6 +47,7 @@ MoodMatch/
 │   └── judge_eval.py               # Manual relevance judging script
 ├── assets/
 │   └── MoodMatch.png               # Logo
+│   └── Page_MM.jpeg                # UI screenshot
 └── processed/                      # Cached indices (not in git — see below)
     ├── bm25_index.pkl
     ├── st_corpus.pkl
